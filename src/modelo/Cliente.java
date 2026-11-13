@@ -39,7 +39,7 @@ public class Cliente {
         this.telefono = t;
     }
 
-    // Que el barrio tenga cobertura lo valida el servicio (él conoce la lista).
+
     public void setBarrio(String barrio) {
         this.barrio = Validador.textoObligatorio(barrio, "barrio");
     }

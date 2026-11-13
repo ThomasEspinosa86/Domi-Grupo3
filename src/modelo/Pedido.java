@@ -26,7 +26,7 @@ public class Pedido {
         this.costo = costo;
         this.tiempo = tiempo;
         this.estado = Estado.EN_CAMINO;
-        this.numero = contador++;   // solo avanza si todo lo anterior salió bien
+        this.numero = contador++;
     }
 
     public int getNumero() { return numero; }
@@ -39,7 +39,7 @@ public class Pedido {
     public double getTiempo() { return tiempo; }
     public Estado getEstado() { return estado; }
 
-    // Solo se puede salir de EN_CAMINO; los otros dos estados son finales.
+
     public void entregar() {
         validarEnCamino("entregar");
         estado = Estado.ENTREGADO;

@@ -35,16 +35,14 @@ public class DomiService {
         repartidores.add(new Moto("R-02", "Andrés Mejía"));
         repartidores.add(new Carro("R-03", "Jorge Pardo"));
 
-        // La dirección no venía en el enunciado: puse una de ejemplo.
         registrarCliente("1020304050", "Laura Gómez", "3001234567", "Teusaquillo", "Cra 15 # 45-20");
         registrarCliente("1030405060", "Mateo Rincón", "3109876543", "Usaquén", "Calle 120 # 7-30");
     }
 
-    // ---------------- CLIENTES ----------------
 
     public void registrarCliente(String cedula, String nombre, String telefono,
                                  String barrio, String direccion) {
-        Cliente nuevo = new Cliente(cedula, nombre, telefono, barrio, direccion); // valida el modelo
+        Cliente nuevo = new Cliente(cedula, nombre, telefono, barrio, direccion);
         validarBarrio(nuevo.getBarrio());
         if (clientes.containsKey(nuevo.getCedula())) {
             throw new IllegalArgumentException("Ya existe un cliente con esa cédula.");
@@ -64,7 +62,6 @@ public class DomiService {
         return c;
     }
 
-    /** Un parámetro null o vacío significa "dejar como está". */
     public void editarCliente(String cedula, String telefono, String barrio, String direccion) {
         Cliente c = buscarCliente(cedula);
         if (barrio != null && !barrio.trim().isEmpty()) {
@@ -91,10 +88,15 @@ public class DomiService {
         }
     }
 
-    // ---------------- REPARTIDORES ----------------
 
     public void registrarRepartidor(String codigo, String nombre, String tipo) {
-        String cod = codigo == null ? "" : codigo.trim();
+
+        if(codigo == null){
+            codigo = "";
+        }
+        else{ codigo.trim();
+        }
+        String cod =codigo;
         for (Repartidor r : repartidores) {
             if (r.getCodigo().equalsIgnoreCase(cod)) {
                 throw new IllegalArgumentException("Ya existe un repartidor con ese código.");
@@ -105,7 +107,7 @@ public class DomiService {
             case "BICI":  nuevo = new Bici(codigo, nombre);  break;
             case "MOTO":  nuevo = new Moto(codigo, nombre);  break;
             case "CARRO": nuevo = new Carro(codigo, nombre); break;
-            // Para el dron: aquí se agrega un case "DRON".
+
             default: throw new IllegalArgumentException("Tipo de repartidor no válido.");
         }
         repartidores.add(nuevo);
@@ -129,24 +131,22 @@ public class DomiService {
         throw new IllegalArgumentException("No existe un repartidor con ese código.");
     }
 
-    // ---------------- PEDIDOS ----------------
 
     private double kmDe(Cliente cliente) {
         return distancias.get(cliente.getBarrio());
     }
 
-    /** Le pregunta a cada repartidor disponible. El servicio NO sabe de qué tipo es cada uno. */
     public List<Cotizacion> cotizar(String cedula, boolean grande) {
         Cliente cliente = buscarCliente(cedula);
         double km = kmDe(cliente);
         List<Cotizacion> resultado = new ArrayList<>();
-        for (Repartidor r : repartidores) {
-            if (r.isDisponible() && r.puedeLlevar(km, grande, modoLluvia)) {
-                double costo = r.calcularCosto(km);
+        for (Repartidor repeat : repartidores) {
+            if (repeat.isDisponible() && repeat.puedeLlevar(km, grande, modoLluvia)) {
+                double costo = repeat.calcularCosto(km);
                 if (modoLluvia) {
                     costo *= RECARGO_LLUVIA;
                 }
-                resultado.add(new Cotizacion(r, costo, r.calcularTiempo(km)));
+                resultado.add(new Cotizacion(repeat, costo, repeat.calcularTiempo(km)));
             }
         }
         return resultado;
@@ -159,7 +159,6 @@ public class DomiService {
             throw new IllegalArgumentException("Ningún repartidor disponible puede llevar este pedido.");
         }
 
-        // "El mejor hasta ahora": menor costo; si empatan, el más rápido
         Cotizacion mejor = opciones.get(0);
         for (Cotizacion c : opciones) {
             if (c.costo() < mejor.costo()
@@ -194,7 +193,7 @@ public class DomiService {
             throw new IllegalArgumentException("No se puede entregar el pedido #" + numero
                     + ": ya está " + p.getEstado() + ".");
         }
-        p.getRepartidor().recibirCalificacion(calificacion); // si es inválida, lanza y no cambia nada
+        p.getRepartidor().recibirCalificacion(calificacion);
         p.entregar();
         p.getRepartidor().setDisponible(true);
     }
@@ -205,7 +204,6 @@ public class DomiService {
         p.getRepartidor().setDisponible(true);
     }
 
-    // ---------------- OPERACIÓN ----------------
 
     public boolean isModoLluvia() { return modoLluvia; }
 
@@ -238,23 +236,23 @@ public class DomiService {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Total de pedidos: ").append(pedidos.size()).append("\n");
+        StringBuilder construirElString = new StringBuilder();
+        construirElString.append("Total de pedidos: ").append(pedidos.size()).append("\n");
         for (Map.Entry<Estado, Integer> e : porEstado.entrySet()) {
-            sb.append("  ").append(e.getKey()).append(": ").append(e.getValue()).append("\n");
+            construirElString.append("  ").append(e.getKey()).append(": ").append(e.getValue()).append("\n");
         }
-        sb.append("Ingresos del día: $").append(String.format("%,.0f", ingresos)).append("\n");
+        construirElString.append("Ingresos del día: $").append(String.format("%,.0f", ingresos)).append("\n");
         for (Map.Entry<String, Double> e : ingresosPorTipo.entrySet()) {
-            sb.append("  ").append(e.getKey()).append(": $")
+            construirElString.append("  ").append(e.getKey()).append(": $")
                     .append(String.format("%,.0f", e.getValue())).append("\n");
         }
-        sb.append("Repartidor estrella: ");
+        construirElString.append("Repartidor estrella: ");
         if (estrella == null) {
-            sb.append("aún no hay calificaciones");
+            construirElString.append("aún no hay calificaciones");
         } else {
-            sb.append(estrella.getNombre()).append(" (")
+            construirElString.append(estrella.getNombre()).append(" (")
                     .append(String.format("%.1f", estrella.obtenerPromedio())).append(")");
         }
-        return sb.toString();
+        return construirElString.toString();
     }
 }

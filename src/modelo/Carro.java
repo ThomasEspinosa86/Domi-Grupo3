@@ -22,7 +22,7 @@ public class Carro extends Repartidor {
 
     @Override
     public boolean puedeLlevar(double km, boolean esGrande, boolean lluvia) {
-        return true; // sin límite de distancia, lleva grandes y no le afecta la lluvia
+        return true;
     }
 
     @Override

@@ -25,15 +25,14 @@ public class Menu {
                 int opcion = leerEntero("Elija una opción: ");
                 salir = ejecutar(opcion);
             } catch (NumberFormatException e) {
-                // Va ANTES que IllegalArgumentException porque es una hija de ella
-                System.out.println("✖ Debe escribir un número.");
+                System.out.println("X Debe escribir un número.");
             } catch (IllegalArgumentException e) {
-                System.out.println("✖ " + e.getMessage());
+                System.out.println("X " + e.getMessage());
             } catch (NoSuchElementException e) {
                 System.out.println("Entrada cerrada. Saliendo...");
                 salir = true;
             } catch (Exception e) {
-                System.out.println("✖ Ocurrió un error inesperado: " + e.getMessage());
+                System.out.println("Ocurrió un error inesperado: " + e.getMessage());
             }
         }
         System.out.println("Gracias por usar Domi. ¡Hasta pronto!");
@@ -44,7 +43,7 @@ public class Menu {
         System.out.println();
         System.out.println("══════════════════ DOMI · OPERADOR ══════════════════");
         if (servicio.isModoLluvia()) {
-            System.out.println("   🌧  MODO LLUVIA ACTIVO");
+            System.out.println("MODO LLUVIA ACTIVO");
         }
         System.out.println("  CLIENTES        1. Registrar     2. Listar");
         System.out.println("                  3. Editar        4. Eliminar");
@@ -75,12 +74,11 @@ public class Menu {
             case 12: alternarLluvia(); break;
             case 13: System.out.println(servicio.cierreDelDia()); break;
             case 0:  return true;
-            default: System.out.println("✖ Opción no válida. Elija un número entre 0 y 13.");
+            default: System.out.println("Opción no válida. Elija un número entre 0 y 13.");
         }
         return false;
     }
 
-    // ---------- Opciones ----------
 
     private void registrarCliente() {
         String cedula = leerTexto("Cédula: ");
@@ -89,7 +87,7 @@ public class Menu {
         String barrio = leerTexto("Barrio: ");
         String direccion = leerTexto("Dirección: ");
         servicio.registrarCliente(cedula, nombre, telefono, barrio, direccion);
-        System.out.println("✔ Cliente registrado.");
+        System.out.println("Cliente registrado.");
     }
 
     private void editarCliente() {
@@ -100,12 +98,12 @@ public class Menu {
         String barrio = leerTexto("Nuevo barrio: ");
         String direccion = leerTexto("Nueva dirección: ");
         servicio.editarCliente(cedula, telefono, barrio, direccion);
-        System.out.println("✔ Cliente actualizado.");
+        System.out.println("Cliente actualizado.");
     }
 
     private void eliminarCliente() {
         servicio.eliminarCliente(leerTexto("Cédula del cliente: "));
-        System.out.println("✔ Cliente eliminado.");
+        System.out.println("Cliente eliminado.");
     }
 
     private void registrarRepartidor() {
@@ -113,12 +111,12 @@ public class Menu {
         String nombre = leerTexto("Nombre: ");
         String tipo = leerTexto("Tipo (Bici / Moto / Carro): ");
         servicio.registrarRepartidor(codigo, nombre, tipo);
-        System.out.println("✔ Repartidor registrado.");
+        System.out.println("Repartidor registrado.");
     }
 
     private void cambiarDisponibilidad() {
         servicio.cambiarDisponibilidad(leerTexto("Código del repartidor: "));
-        System.out.println("✔ Disponibilidad actualizada.");
+        System.out.println("Disponibilidad actualizada.");
     }
 
     private void crearPedido() {
@@ -135,7 +133,7 @@ public class Menu {
         }
 
         Pedido p = servicio.crearPedido(cedula, descripcion, grande);
-        System.out.println("✔ Pedido #" + p.getNumero() + " asignado a " + p.getRepartidor().getNombre()
+        System.out.println("Pedido #" + p.getNumero() + " asignado a " + p.getRepartidor().getNombre()
                 + " (" + p.getRepartidor().getTipo() + ") · " + p.getEstado());
     }
 
@@ -143,20 +141,19 @@ public class Menu {
         int numero = leerEntero("Número de pedido: ");
         int calificacion = leerEntero("Calificación del cliente (1 a 5): ");
         servicio.entregarPedido(numero, calificacion);
-        System.out.println("✔ Pedido entregado.");
+        System.out.println("Pedido entregado.");
     }
 
     private void cancelarPedido() {
         servicio.cancelarPedido(leerEntero("Número de pedido: "));
-        System.out.println("✔ Pedido cancelado.");
+        System.out.println("Pedido cancelado.");
     }
 
     private void alternarLluvia() {
         servicio.setModoLluvia(!servicio.isModoLluvia());
-        System.out.println(servicio.isModoLluvia() ? "🌧 Modo lluvia ACTIVADO." : "☀ Modo lluvia desactivado.");
+        System.out.println(servicio.isModoLluvia() ? "Modo lluvia ACTIVADO." : "Modo lluvia desactivado.");
     }
 
-    // ---------- Utilidades de lectura ----------
 
     private void mostrarLista(Collection<?> lista, String mensajeVacio) {
         if (lista.isEmpty()) {
@@ -173,7 +170,6 @@ public class Menu {
         return scanner.nextLine();
     }
 
-    // Lee como texto y convierte: evita la trampa del buffer de nextInt()
     private int leerEntero(String mensaje) {
         return Integer.parseInt(leerTexto(mensaje).trim());
     }
