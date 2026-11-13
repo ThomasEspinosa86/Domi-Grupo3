@@ -15,7 +15,6 @@ public class DomiService {
     private final List<Pedido> pedidos = new ArrayList<>();
     private boolean modoLluvia = false;
 
-    /** Resultado de preguntarle a un repartidor cuánto cobra y cuánto se demora. */
     public record Cotizacion(Repartidor repartidor, double costo, double tiempo) { }
 
     public DomiService() {
