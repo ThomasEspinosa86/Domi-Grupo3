@@ -26,7 +26,8 @@ public class Menu {
         while (!salir) {
             mostrarMenu();
             try {
-                int opcion = leerEntero("Elija una opción: ");
+                System.out.println("Elija una opción: ");
+                int opcion=scanner.nextInt();
                 salir = ejecutar(opcion);
             } catch (IllegalArgumentException e) {
                 System.out.println("✖ " + e.getMessage());
@@ -64,28 +65,28 @@ public class Menu {
     private boolean ejecutar(int opcion) {
         switch (opcion) {
             case 1:
-                registrarCliente();
+                servicio.registrarCliente();
                 break;
-            case 2:
-                listarClientes();
+            /*case 2:
+                servicio.listarClientes();
                 break;
             case 3:
-                editarCliente();
+                servicio.editarClientes();
                 break;
             case 4:
-                eliminarCliente();
+                servicio.eliminarClientes();
                 break;
             case 5:
-                registrarRepartidor();
+                servicio.registrarRepartidores();
                 break;
             case 6:
-                listarRepartidores();
+                servicio.listarRepartidores();
                 break;
             case 7:
-                cambiarDisponibilidad();
+                servicio.cambiarDisponibilidad();
                 break;
             case 8:
-                crearPedido();
+                servicio.crearPedido();
                 break;
             case 9:
                 entregarPedido();
@@ -94,7 +95,7 @@ public class Menu {
                 cancelarPedido();
                 break;
             case 11:
-                listarPedidos();
+                servicio.listarPedidos();
                 break;
             case 12:
                 alternarLluvia();
@@ -102,6 +103,7 @@ public class Menu {
             case 13:
                 cierreDelDia();
                 break;
+            */
             case 0:
                 return true;
             default:
