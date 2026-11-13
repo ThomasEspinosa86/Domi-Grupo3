@@ -1,7 +1,5 @@
 package modelo;
 
-import servicio.DomiService;
-
 public abstract class Repartidor implements Calificable {
 
     private final String codigo;
@@ -12,50 +10,25 @@ public abstract class Repartidor implements Calificable {
     private int cantidadCalificaciones;
 
     public Repartidor(String codigo, String nombre) {
-        this.codigo=codigo;
-        this.nombre = nombre;
+        this.codigo = Validador.textoObligatorio(codigo, "código");
+        setNombre(nombre);
         this.disponible = true;
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-    public void setCodigo(String codigo){
-        textoValidar(codigo);
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
+    public String getCodigo() { return codigo; }
+    public String getNombre() { return nombre; }
+    public boolean isDisponible() { return disponible; }
+    public int getCantidadCalificaciones() { return cantidadCalificaciones; }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public boolean isDisponible() {
-        return disponible;
+        this.nombre = Validador.textoObligatorio(nombre, "nombre");
     }
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
 
-    public int getSumaCalificaciones() {
-        return sumaCalificaciones;
-    }
-
-    public void setSumaCalificaciones(int sumaCalificaciones) {
-        this.sumaCalificaciones = sumaCalificaciones;
-    }
-
-    public int getCantidadCalificaciones() {
-        return cantidadCalificaciones;
-    }
-
-    public void setCantidadCalificaciones(int cantidadCalificaciones) {
-        this.cantidadCalificaciones = cantidadCalificaciones;
-    }
-
+    // Cada hija responde con su propia tabla (polimorfismo)
     public abstract double calcularCosto(double km);
     public abstract double calcularTiempo(double km);
     public abstract boolean puedeLlevar(double km, boolean esGrande, boolean lluvia);
@@ -78,5 +51,10 @@ public abstract class Repartidor implements Calificable {
         return (double) sumaCalificaciones / cantidadCalificaciones;
     }
 
-    public abstract String textoValidar(String valor);
+    @Override
+    public String toString() {
+        return codigo + " | " + nombre + " | " + getTipo()
+                + " | " + (disponible ? "Disponible" : "No disponible")
+                + " | Promedio: " + String.format("%.1f", obtenerPromedio());
+    }
 }

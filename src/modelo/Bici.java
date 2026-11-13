@@ -7,7 +7,6 @@ public class Bici extends Repartidor {
     private static final double VELOCIDAD_KMH = 15;
     private static final double DISTANCIA_MAXIMA = 5;
 
-
     public Bici(String codigo, String nombre) {
         super(codigo, nombre);
     }
@@ -19,21 +18,16 @@ public class Bici extends Repartidor {
 
     @Override
     public double calcularTiempo(double km) {
-        return km * 60 / VELOCIDAD_KMH;
+        return km / VELOCIDAD_KMH * 60;
     }
 
     @Override
-    public boolean puedeLlevar(double km, boolean esgrande, boolean lluvia) {
-        return !esgrande && !lluvia && km <= DISTANCIA_MAXIMA;
+    public boolean puedeLlevar(double km, boolean esGrande, boolean lluvia) {
+        return !esGrande && !lluvia && km <= DISTANCIA_MAXIMA;
     }
 
     @Override
     public String getTipo() {
         return "Bici";
-    }
-
-    @Override
-    public String textoValidar(String valor) {
-        return "";
     }
 }
