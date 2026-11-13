@@ -14,8 +14,7 @@ public class Pedido {
     private final double tiempo;
     private Estado estado;
 
-    public Pedido(Cliente cliente, String descripcion, boolean grande, double km,
-                  Repartidor repartidor, double costo, double tiempo) {
+    public Pedido(Cliente cliente, String descripcion, boolean grande, double km, Repartidor repartidor, double costo, double tiempo) {
         if (cliente == null || repartidor == null) {
             throw new IllegalArgumentException("El pedido necesita cliente y repartidor.");
         }
