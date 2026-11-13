@@ -60,6 +60,7 @@ public class Menu {
         System.out.println("═════════════════════════════════════════════════════");
     }
 
+
     private boolean ejecutar(int opcion) {
         switch (opcion) {
             case 1:

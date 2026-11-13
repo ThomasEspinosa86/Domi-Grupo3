@@ -1,12 +1,8 @@
 package servicio;
 
-import modelo.Bici;
-import modelo.Carro;
-import modelo.Cliente;
-import modelo.Dron;
-import modelo.Moto;
-import modelo.Pedido;
 import modelo.Repartidor;
+import modelo.Cliente;
+import modelo.Pedido;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,5 +22,34 @@ public class DomiService {
     private final List<Pedido> pedidos = new ArrayList<>();
     private boolean modoLluvia = false;
 
+    public Map<String, Cliente> getClientes() {
+        return clientes;
+    }
 
+    public Set<String> getBarrios() {
+        return barrios;
+    }
+
+    public Map<String, Double> getDistancias() {
+        return distancias;
+    }
+
+    public List<Repartidor> getRepartidores() {
+        return repartidores;
+    }
+    public List<Repartidor> setRepartidores() {
+        return repartidores;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public boolean isModoLluvia() {
+        return modoLluvia;
+    }
+
+    public void setModoLluvia(boolean modoLluvia) {
+        this.modoLluvia = modoLluvia;
+    }
 }
